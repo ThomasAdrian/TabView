@@ -55,8 +55,11 @@ internal class TabViewHeaderItem : Grid
             this.Children.Add(content);
         }
 
-        if (HeaderContent is View) return;
-
+        if (HeaderContent is View)
+        {
+            if (IsSelected) this.SetBinding(View.BackgroundColorProperty, new Binding("SelectedHeaderBackgroundColor", source: RelativeBindingSource.TemplatedParent));
+            else this.SetBinding(View.BackgroundColorProperty, new Binding("HeaderBackgroundColor", source: RelativeBindingSource.TemplatedParent));
+        }
         else if (propertyName == IsSelectedProperty.PropertyName)
         {
             if (IsSelected) this.SetBinding(View.BackgroundColorProperty, new Binding("SelectedHeaderBackgroundColor", source: RelativeBindingSource.TemplatedParent));
