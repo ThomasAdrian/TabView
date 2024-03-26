@@ -344,15 +344,29 @@ public class TabView : ContentView
             if (tab.IsEnabled)
             {
                 SelectedTabIndex = Tabs.IndexOf(tab);
-                if (_headersScroll != null && ScrollToSelectedTab && _headersContainer.Width > _headersScroll.Width)
+                if (_headersScroll != null && ScrollToSelectedTab)
                 {
-                    var max = _headersContainer.Width - _headersScroll.Width;
-                    var scrollTo = tab.TabViewHeaderItem.X - (_headersScroll.Width - tab.TabViewHeaderItem.Width) / 2.0;
-                    if (scrollTo < 0) scrollTo = 0;
-                    else if (scrollTo > max) scrollTo = max;
+                    if (_headersContainer.Width > _headersScroll.Width)
+                    {
+                        var max = _headersContainer.Width - _headersScroll.Width;
+                        var scrollTo = tab.TabViewHeaderItem.X - (_headersScroll.Width - tab.TabViewHeaderItem.Width) / 2.0;
+                        if (scrollTo < 0) scrollTo = 0;
+                        else if (scrollTo > max) scrollTo = max;
+                        _headersScroll.ScrollToAsync(scrollTo, 0, true);
+                    }
+                    else
+                    {
+                        //ALT hacky to allow the scroll to work!
+                        //TODO do it properly
+                        Task.Run(async () =>
+                        {
+                            await Task.Delay(500);
+                            MainThread.BeginInvokeOnMainThread(async () => await _headersScroll.ScrollToAsync(tab.TabViewHeaderItem, ScrollToPosition.MakeVisible, true));
+                        });
+                    }
 
-                    _headersScroll.ScrollToAsync(scrollTo, 0, true);
                 }
+
             }
             else tab.IsSelected = false;
         }
