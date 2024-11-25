@@ -17,6 +17,7 @@
 		<PackageTags>tab view;tabview;maui;tabbedview;tab;tabbed;tabs</PackageTags>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 		<PackageReadmeFile>readme.md</PackageReadmeFile>
+		<Configurations>Debug;Release;Debug_SaaS;Debug_NonSaaS;Release_SaaS;Release_NonSaaS</Configurations>
 	</PropertyGroup>
 
 	<ItemGroup>
